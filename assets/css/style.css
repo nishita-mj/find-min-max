@@ -1,6 +1,8 @@
 body {
-    background-color: #f4f8fb;
+    /* background-color: #f4f8fb; */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #565ab0;
+    background: linear-gradient(90deg, rgba(86, 90, 176, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
 }
 
 .main-wrapper {
@@ -10,6 +12,8 @@ body {
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -53,4 +57,8 @@ button {
     font-weight: 600;
     color: #007bff;
     height: 60px;
+}
+
+.button {
+    margin-left: 85px;
 }

@@ -18,7 +18,7 @@
         <h1 class="text-center fw-bold">Find Min - Max</h1>
         <div id="demo" class="d-flex gap-3 flex-wrap align-items-center justify-content-center my-3"></div>
 
-        <div class="d-flex gap-3 flex-wrap mt-4">
+        <div class="d-flex gap-3 flex-wrap mt-4 button">
             <button class="btn btn-primary" id="random">Random</button>
             <button class="btn btn-primary" id="max">Max</button>
             <button class="btn btn-primary" id="min">Min</button>
@@ -35,244 +35,261 @@
     </div>
 
     <script src="./assets/js/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-
-
         $(document).ready(function () {
-            let number = parseInt(prompt("Enter How Many Boxes"))
+            let number = 10;
+            let box = document.getElementById("demo");
+            let ans = document.getElementById("ans");
 
-            if (isNaN(number) || number <= 0) {
-                alert("Invalid Number || Creating Default 10 boxes")
-                number = 10;
-            }
-            let box = document.getElementById("demo")
-            for (let i = 1; i <= number; i++) {
-                box.innerHTML += `<input type="text" id="num${i}" class="input-box">`
-            }
-            // let ipnum=document.getElementById("num")
+            Swal.fire({
+                title: 'Enter how many boxes',
+                input: 'number',
+                inputAttributes: {
+                    min: 1
+                },
+                inputValidator: (value) => {
+                    if (!value || value <= 0) {
+                        return 'Please enter a valid number greater than 0';
+                    }
+                },
+                allowOutsideClick: false,
+                showCancelButton: false,
+                confirmButtonText: 'Create'
+            }).then((result) => {
+                number = parseInt(result.value) || 10;
+                createBoxes(number);
+            });
 
-            // let number=0;
-            let ans = document.getElementById("ans")
-            // $("#sub").on("click",function(){
-            //     number=parseInt(ipnum.value);
-            //     box.innerHTML = "";
-            //     for(let i = 1;i <= number;i++){
-            //         box.innerHTML += `<input type="text" id="num${i}">`
-            //     }
-            // })
+            function createBoxes(num) {
+                box.innerHTML = "";
+                for (let i = 1; i <= num; i++) {
+                    box.innerHTML += `<input type="text" id="num${i}" class="input-box">`;
+                }
+            }
+
+            function getValue(id) {
+                return parseInt(document.getElementById(`num${id}`).value);
+            }
+
             $("#random").on("click", function () {
                 ans.innerHTML = "";
                 $(".input-box").removeClass("highlight");
-                for (i = 1; i <= number; i++) {
-                    // let random=parseInt( (Math.random() *100));
-                    document.getElementById(`num${i}`).value = parseInt(Math.random() * 99) + 2;
-                    // input.value = random;
+                for (let i = 1; i <= number; i++) {
+                    document.getElementById(`num${i}`).value = Math.floor(Math.random() * 98) + 2;
                 }
-                $("#random").addClass("highlight-box")
-            })
+                $("#random").addClass("highlight-box");
+            });
+
             $("#max").on("click", function () {
-                $(".input-box").removeClass("highlight");
-                $(".btn").removeClass("highlight-box")
+                $(".input-box, .btn").removeClass("highlight highlight-box");
                 ans.innerHTML = "";
-                let max = -Infinity;
-                let maxid = null;
-                for (i = 1; i <= number; i++) {
-                    let val = parseInt(document.getElementById(`num${i}`).value)
+                let max = -Infinity, maxid = null;
+                for (let i = 1; i <= number; i++) {
+                    let val = getValue(i);
+                    if (isNaN(val)) continue;
                     if (val > max) {
                         max = val;
-                        maxid = `#num${i}`
+                        maxid = `#num${i}`;
                     }
+                }
+                if (maxid) {
+                    $(maxid).addClass("highlight");
+                    $("#max").addClass("highlight-box");
+                    ans.innerHTML = `Maximum Number is ${max}`;
+                } else {
+                    Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
+                }
+            });
 
-                }
-                if (max === -Infinity) {
-                    ans.innerHTML = "Please Enter Valid Input";
-                    return;
-                }
-                $(maxid).addClass("highlight")
-                $("#max").addClass("highlight-box")
-                ans.innerHTML = `Maximum Number is ${max}`;
-            })
             $("#min").on("click", function () {
-                $(".btn").removeClass("highlight-box")
-                $(".input-box").removeClass("highlight");
+                $(".input-box, .btn").removeClass("highlight highlight-box");
                 ans.innerHTML = "";
-                let minid = null;
-                let min = Infinity;
+                let min = Infinity, minid = null;
                 for (let i = 1; i <= number; i++) {
-                    let val = parseInt(document.getElementById(`num${i}`).value)
+                    let val = getValue(i);
+                    if (isNaN(val)) continue;
                     if (val < min) {
                         min = val;
                         minid = `#num${i}`;
                     }
+                }
+                if (minid) {
+                    $(minid).addClass("highlight");
+                    $("#min").addClass("highlight-box");
+                    ans.innerHTML = `Minimum Number is ${min}`;
+                } else {
+                    Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
+                }
+            });
 
-                }
-                if (min === Infinity) {
-                    ans.innerHTML = "Please Enter Valid Input";
-                    return;
-                }
-                $(minid).addClass("highlight")
-                $("#min").addClass("highlight-box")
-                ans.innerHTML = `Minimum Number is ${min}`;
-            })
-            $("#search").on("click", function () {
+            $("#search").on("click", async function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
-                let searchid = null;
+                $(".btn, .input-box").removeClass("highlight highlight-box");
+
                 for (let i = 1; i <= number; i++) {
                     if (document.getElementById(`num${i}`).value === "") {
-                        ans.innerHTML = "Please Enter All inputs";
+                        Swal.fire('Warning', 'Please enter all input values first.', 'warning');
                         return;
                     }
                 }
-                $(".input-box").removeClass("highlight");
-                let val = parseInt(prompt("Enter Value you want to search"));
-                let flag = 1
-                for (let i = 1; i <= number; i++) {
-                    let ip = parseInt(document.getElementById(`num${i}`).value)
 
-                    if (ip === val) {
-                        flag = 0;
-                        ans.innerHTML = "The number is in The list";
-                        searchid = `#num${i}`;
+                const { value: searchVal } = await Swal.fire({
+                    title: 'Enter value to search',
+                    input: 'number',
+                    inputAttributes: {
+                        min: 1
+                    },
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) return 'You need to enter a number!';
+                    }
+                });
+
+                if (!searchVal) return;
+
+                let found = false;
+                for (let i = 1; i <= number; i++) {
+                    if (getValue(i) === parseInt(searchVal)) {
+                        $(`#num${i}`).addClass("highlight");
+                        found = true;
                         break;
                     }
                 }
-                if (flag === 1) {
-                    ans.innerHTML = "The number is not in the list";
+
+                if (found) {
+                    ans.innerHTML = "The number is in the list.";
+                } else {
+                    ans.innerHTML = "The number is not in the list.";
                 }
-                $(searchid).addClass("highlight")
-                $("#search").addClass("highlight-box")
-            })
+                $("#search").addClass("highlight-box");
+            });
+
             $("#sum").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
+                $(".btn, .input-box").removeClass("highlight highlight-box");
                 let sum = 0;
+
                 for (let i = 1; i <= number; i++) {
-                    if (document.getElementById(`num${i}`).value === "") {
-                        ans.innerHTML = "Please Enter All inputs";
+                    let val = getValue(i);
+                    if (isNaN(val)) {
+                        Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
                         return;
                     }
+                    sum += val;
                 }
-                $(".input-box").removeClass("highlight");
-                for (let i = 1; i <= number; i++) {
-                    sum = sum + parseInt(document.getElementById(`num${i}`).value)
-                }
-                $("#sum").addClass("highlight-box")
-                ans.innerHTML = `The sum of All number:${sum}`;
-            })
+
+                ans.innerHTML = `The sum of all numbers is: ${sum}`;
+                $("#sum").addClass("highlight-box");
+            });
+
             $("#clr").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
-                $(".input-box").removeClass("highlight");
+                $(".btn, .input-box").removeClass("highlight highlight-box");
                 for (let i = 1; i <= number; i++) {
                     document.getElementById(`num${i}`).value = "";
                 }
-                $("#clr").addClass("highlight-box")
-            })
+                $("#clr").addClass("highlight-box");
+            });
+
             $("#prime").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
+                $(".btn, .input-box").removeClass("highlight highlight-box");
+
                 for (let i = 1; i <= number; i++) {
-                    if (document.getElementById(`num${i}`).value === "") {
-                        ans.innerHTML = "Please Enter All inputs";
+                    let val = getValue(i);
+                    if (isNaN(val)) {
+                        Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
                         return;
                     }
-                }
-                $(".input-box").removeClass("highlight");
-                for (let i = 1; i <= number; i++) {
-                    let prime2 = parseInt(document.getElementById(`num${i}`).value);
-                    let flag = 1;
-                    for (let j = 2; j < prime2; j++) {
-                        if (prime2 % j === 0) {
-                            flag = 0;
+
+                    let isPrime = val > 1;
+                    for (let j = 2; j <= Math.sqrt(val); j++) {
+                        if (val % j === 0) {
+                            isPrime = false;
                             break;
                         }
                     }
-                    let primeid;
-                    if (flag === 1) {
-                        primeid = `#num${i}`;
-
+                    if (isPrime) {
+                        $(`#num${i}`).addClass("highlight");
                     }
-                    $(primeid).addClass("highlight")
-                    $("#prime").addClass("highlight-box")
                 }
-            })
+                $("#prime").addClass("highlight-box");
+            });
+
             $("#odd").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
+                $(".btn, .input-box").removeClass("highlight highlight-box");
+
                 for (let i = 1; i <= number; i++) {
-                    if (document.getElementById(`num${i}`).value === "") {
-                        ans.innerHTML = "Please Enter All inputs";
+                    let val = getValue(i);
+                    if (isNaN(val)) {
+                        Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
                         return;
                     }
-                }
-                $(".input-box").removeClass("highlight")
-                for (let i = 1; i <= number; i++) {
-                    let odd = parseInt(document.getElementById(`num${i}`).value);
-                    if (odd % 2 != 0) {
-                        let oddid = `#num${i}`;
-                        $(oddid).addClass("highlight")
+                    if (val % 2 !== 0) {
+                        $(`#num${i}`).addClass("highlight");
                     }
                 }
-                $("#odd").addClass("highlight-box")
-            })
+                $("#odd").addClass("highlight-box");
+            });
+
             $("#even").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
+                $(".btn, .input-box").removeClass("highlight highlight-box");
+
                 for (let i = 1; i <= number; i++) {
-                    if (document.getElementById(`num${i}`).value === "") {
-                        ans.innerHTML = "Please Enter All inputs";
+                    let val = getValue(i);
+                    if (isNaN(val)) {
+                        Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
                         return;
                     }
-                }
-                $(".input-box").removeClass("highlight")
-                for (let i = 1; i <= number; i++) {
-                    let even = parseInt(document.getElementById(`num${i}`).value);
-                    if (even % 2 === 0) {
-                        let evenid = `#num${i}`;
-                        $(evenid).addClass("highlight")
+                    if (val % 2 === 0) {
+                        $(`#num${i}`).addClass("highlight");
                     }
                 }
-                $("#even").addClass("highlight-box")
-            })
+                $("#even").addClass("highlight-box");
+            });
+
             $("#median").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn").removeClass("highlight-box")
+                $(".btn, .input-box").removeClass("highlight highlight-box");
+
+                let total = 0;
                 for (let i = 1; i <= number; i++) {
-                    if (document.getElementById(`num${i}`).value === "") {
-                        ans.innerHTML = "Please Enter All inputs";
+                    let val = getValue(i);
+                    if (isNaN(val)) {
+                        Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
                         return;
                     }
-                }
-                let sum = 0;
-                $(".input-box").removeClass("highlight")
-                for (let i = 1; i <= number; i++) {
-                    sum = sum + parseInt(document.getElementById(`num${i}`).value)
-                }
-                let median = sum / number;
-                ans.innerHTML = `Average of All number is ${median}`
-                $("#median").addClass("highlight-box")
-            })
-            $("#refresh").on("click", function () {
-                $(".input-box").removeClass("highlight")
-                let newnumber = parseInt(prompt("Enter Number of Boxes You want"))
-
-                if (isNaN(newnumber) || newnumber <= 0) {
-                    prompt("Invalid Input.Defaulting to 10 boxes")
-                    newnumber = 10;
+                    total += val;
                 }
 
-                number = newnumber;
-                $("#demo").html("");
-                let box = document.getElementById("demo");
-                for (let i = 1; i <= number; i++) {
-                    box.innerHTML += `<input type="text" id="num${i}" class="input-box">`
-                }
+                let avg = total / number;
+                ans.innerHTML = `Average (Mean) of all numbers is ${avg.toFixed(2)}`;
+                $("#median").addClass("highlight-box");
+            });
+
+            $("#refresh").on("click", async function () {
+                $(".input-box, .btn").removeClass("highlight highlight-box");
                 ans.innerHTML = "";
 
-            })
-        })
+                const { value: newNum } = await Swal.fire({
+                    title: 'Enter number of boxes you want',
+                    input: 'number',
+                    inputAttributes: {
+                        min: 1
+                    },
+                    inputValidator: (value) => {
+                        if (!value || value <= 0) return 'Enter a number greater than 0';
+                    },
+                    confirmButtonText: 'Refresh'
+                });
 
+                number = parseInt(newNum) || 10;
+                createBoxes(number);
+            });
+        });
     </script>
 
 </body>
