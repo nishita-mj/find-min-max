@@ -1,0 +1,56 @@
+body {
+    background-color: #f4f8fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-wrapper {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.input-box {
+    width: 80px;
+    height: 50px;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.input-box:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    min-width: 100px;
+    font-weight: 600;
+}
+
+.highlight {
+    background-color: #ffe082 !important;
+    border-color: #ffc107 !important;
+}
+
+.highlight-box {
+    background-color: #ffc107 !important;
+    border-color: #ffa000 !important;
+    color: #000;
+}
+
+#ans {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #007bff;
+    height: 60px;
+}
