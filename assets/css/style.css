@@ -1,5 +1,4 @@
 body {
-    /* background-color: #f4f8fb; */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #565ab0;
     background: linear-gradient(90deg, rgba(86, 90, 176, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
@@ -41,17 +40,6 @@ button {
     font-weight: 600;
 }
 
-.highlight {
-    background-color: #ffe082 !important;
-    border-color: #ffc107 !important;
-}
-
-.highlight-box {
-    background-color: #ffc107 !important;
-    border-color: #ffa000 !important;
-    color: #000;
-}
-
 #ans {
     font-size: 1.5rem;
     font-weight: 600;
@@ -73,6 +61,7 @@ button {
   color: white;
   box-shadow: 0 0 20px #eee;
   border-radius: 10px;
+  font-size: 18px;
  }
 
 .btn:hover {
@@ -81,4 +70,8 @@ button {
 
 .btn-5 {
   background-image: linear-gradient(to right, #f9459c 2%, #a6c1ee 50%, #8f44de 100%);
+}
+
+.reset{
+    margin-left: 230px;
 }
