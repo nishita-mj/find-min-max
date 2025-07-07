@@ -19,13 +19,13 @@
         <div id="demo" class="d-flex gap-3 flex-wrap align-items-center justify-content-center my-3"></div>
 
         <div class="d-flex gap-3 flex-wrap mt-4 button">
-            <button class="btn btn-5" id="max">Max</button>
-            <button class="btn btn-5" id="min">Min</button>
-            <button class="btn btn-5" id="random">Random</button>
-            <button class="btn btn-5" id="search">Search</button>
-            <button class="btn btn-5" id="sum">Sum</button>
+            <button class="btn btn-5 fw-bold" id="max">Max</button>
+            <button class="btn btn-5 fw-bold" id="min">Min</button>
+            <button class="btn btn-5 fw-bold" id="random">Random</button>
+            <button class="btn btn-5 fw-bold" id="search">Search</button>
+            <button class="btn btn-5 fw-bold" id="sum">Sum</button>
             <div class="d-flex justify-content-center align-items-center reset">
-                <button class="btn btn-5" id="refresh">Reset</button>
+                <button class="btn btn-5 fw-bold" id="refresh">Reset</button>
             </div>
             
         </div>
@@ -75,15 +75,12 @@
 
             $("#random").on("click", function () {
                 ans.innerHTML = "";
-                $(".input-box").removeClass("highlight");
                 for (let i = 1; i <= number; i++) {
                     document.getElementById(`num${i}`).value = Math.floor(Math.random() * 98) + 2;
                 }
-                $("#random").addClass("highlight-box");
             });
 
             $("#max").on("click", function () {
-                $(".input-box, .btn").removeClass("highlight highlight-box");
                 ans.innerHTML = "";
                 let max = -Infinity, maxid = null;
                 for (let i = 1; i <= number; i++) {
@@ -95,8 +92,6 @@
                     }
                 }
                 if (maxid) {
-                    $(maxid).addClass("highlight");
-                    $("#max").addClass("highlight-box");
                     ans.innerHTML = `Maximum Number is ${max}`;
                 } else {
                     Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
@@ -104,7 +99,6 @@
             });
 
             $("#min").on("click", function () {
-                $(".input-box, .btn").removeClass("highlight highlight-box");
                 ans.innerHTML = "";
                 let min = Infinity, minid = null;
                 for (let i = 1; i <= number; i++) {
@@ -116,8 +110,6 @@
                     }
                 }
                 if (minid) {
-                    $(minid).addClass("highlight");
-                    $("#min").addClass("highlight-box");
                     ans.innerHTML = `Minimum Number is ${min}`;
                 } else {
                     Swal.fire('Error', 'Please enter valid inputs in all boxes.', 'error');
@@ -126,7 +118,6 @@
 
             $("#search").on("click", async function () {
                 ans.innerHTML = "";
-                $(".btn, .input-box").removeClass("highlight highlight-box");
 
                 for (let i = 1; i <= number; i++) {
                     if (document.getElementById(`num${i}`).value === "") {
@@ -152,7 +143,6 @@
                 let found = false;
                 for (let i = 1; i <= number; i++) {
                     if (getValue(i) === parseInt(searchVal)) {
-                        $(`#num${i}`).addClass("highlight");
                         found = true;
                         break;
                     }
@@ -163,12 +153,10 @@
                 } else {
                     ans.innerHTML = "The number is not in the list.";
                 }
-                $("#search").addClass("highlight-box");
             });
 
             $("#sum").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn, .input-box").removeClass("highlight highlight-box");
                 let sum = 0;
 
                 for (let i = 1; i <= number; i++) {
@@ -181,12 +169,10 @@
                 }
 
                 ans.innerHTML = `The sum of all numbers is: ${sum}`;
-                $("#sum").addClass("highlight-box");
             });
 
             $("#median").on("click", function () {
                 ans.innerHTML = "";
-                $(".btn, .input-box").removeClass("highlight highlight-box");
 
                 let total = 0;
                 for (let i = 1; i <= number; i++) {
@@ -200,11 +186,9 @@
 
                 let avg = total / number;
                 ans.innerHTML = `Average (Mean) of all numbers is ${avg.toFixed(2)}`;
-                $("#median").addClass("highlight-box");
             });
 
             $("#refresh").on("click", async function () {
-                $(".input-box, .btn").removeClass("highlight highlight-box");
                 ans.innerHTML = "";
 
                 const { value: newNum } = await Swal.fire({

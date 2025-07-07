@@ -1,5 +1,4 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #565ab0;
     background: linear-gradient(90deg, rgba(86, 90, 176, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
 }
@@ -13,6 +12,7 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     align-items: center;
     justify-content: center;
+    margin-top: 220px;
 }
 
 h1 {
@@ -26,7 +26,7 @@ h1 {
     border: 2px solid #dee2e6;
     border-radius: 10px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 20px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -41,10 +41,9 @@ button {
 }
 
 #ans {
-    font-size: 1.5rem;
+    font-size: 30px;
     font-weight: 600;
-    color: #007bff;
-    height: 60px;
+    margin-top: 40px;
 }
 
 .button {
@@ -58,7 +57,7 @@ button {
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
-  color: white;
+  color: black;
   box-shadow: 0 0 20px #eee;
   border-radius: 10px;
   font-size: 18px;
